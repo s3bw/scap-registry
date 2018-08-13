@@ -64,7 +64,8 @@ class LocalStorage(Storage):
         with open(path, mode='r') as f:
             if html:
                 return '<br>'.join(f.readlines())
-            else f.read()
+            else:
+                f.read()
 
     def put_content(self, path, content):
         path = self._init_path(path, create=True)

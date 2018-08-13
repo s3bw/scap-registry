@@ -5,5 +5,7 @@
 
 import requests
 
-payload = {'file_stream': 'here'}
-r = requests.put('localhost:5000/v1/image/note_name/', data=payload)
+stream_data = open('readme.md', 'rb')
+r = requests.put('http://localhost:5000/v1/notes/readme.md', data=stream_data)
+
+stream_data.close()
