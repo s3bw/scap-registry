@@ -4,12 +4,13 @@ from io import StringIO
 # import config
 
 
-ROOT_PATH = "/home/sebastien/.fscap_notes_dev"
+ROOT_PATH = "/home/sebastien/.fscap_cloud_test"
 
 
 class Storage:
     """ Storage is organized as follows:
-    $ROOT/notes/<note_id>
+    $ROOT/notes/<note_id>/content
+    $ROOT/notes/<note_id>/json
     $ROOT/data/note_data.pkl
     """
 
@@ -20,7 +21,10 @@ class Storage:
         return 'data/note_data.pkl'
 
     def note_content_path(self, note_id):
-        return '{0}/{1}'.format(self.notes, note_id)
+        return '{0}/{1}/content'.format(self.notes, note_id)
+
+    def note_json_path(self, note_id):
+        return '{0}/{1}/json'.format(self.notes, note_id)
 
     def get_content(self, path):
         raise NotImplemented
@@ -59,13 +63,13 @@ class LocalStorage(Storage):
                 os.makedirs(dirname)
         return path
 
-    def get_content(self, path, html=True):
+    def get_content(self, path, html=False):
         path = self._init_path(path)
         with open(path, mode='r') as f:
             if html:
                 return '<br>'.join(f.readlines())
             else:
-                f.read()
+                return f.read()
 
     def put_content(self, path, content):
         path = self._init_path(path, create=True)
