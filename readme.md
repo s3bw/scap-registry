@@ -23,8 +23,8 @@ python -m flask run
 ```
 
 To do list:
-[X] create endpoints for separate meta data JSONs
-[ ] create endpoint for constructing full meta data JSON
-[ ] move the json encoder from mock_usage to utils
-[ ] implement this in foolscap
-[ ] import from root instead of having relative imports
+- [X] create endpoints for separate meta data JSONs
+- [ ] create endpoint for constructing full meta data JSON
+- [ ] move the json encoder from mock_usage to utils
+- [ ] implement this in foolscap
+- [ ] import from root instead of having relative imports
