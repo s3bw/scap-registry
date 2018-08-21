@@ -17,9 +17,7 @@ pip install requests
 ## Setup debugger for development
 
 ```bash
-export FLASK_APP=scap_registry/app.py
-export FLASK_DEBUG=1
-python -m flask run
+bash app_debugger.sh
 ```
 
 To do list:
