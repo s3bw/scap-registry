@@ -1,7 +1,12 @@
 import json
+from json import JSONDecoder
+from json import JSONEncoder
 from datetime import datetime
 
 import requests
+
+
+_FILE_NAME = 'fake_note'
 
 
 def mock_data(views, year=2000, tag='fake_tag', book='general'):
@@ -16,39 +21,99 @@ def mock_data(views, year=2000, tag='fake_tag', book='general'):
     }
 
 
-class DateTimeEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, datetime):
-            return o.isoformat()
-        return super().default(o)
+class DateTimeEncoder(JSONEncoder):
+    """Encode datetime objects as a dict with a key __type__.
+    """
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return {
+                '__type__': 'datetime',
+                'year': obj.year,
+                'month': obj.month,
+                'day': obj.day,
+                'hour': obj.hour,
+                'minute': obj.minute,
+                'second': obj.second,
+                'microsecond': obj.microsecond,
+            }
+        else:
+            return JSONEncoder.default(self, obj)
 
 
-file_name = 'fake_note'
-data = mock_data(3)
+"""
+POST NOTE CONTENT
+"""
+
+def post_file_content(file_name):
+    """In this example we can see the endpoint being used to post note
+        content.
+    """
+    stream_data = open(file_name, 'rb')
+    # Post content
+    requests.put(
+        'http://localhost:5000/v1/notes/{}/content'.format(file_name),
+        data=stream_data
+    )
+    stream_data.close()
+
+
+post_file_content(_FILE_NAME)
+
+"""
+GET AND PUT NOTE JSON
+"""
+
+DATA = mock_data(3)
+
 json_dump = json.dumps(
-    data,
+    DATA,
     indent=4,
     sort_keys=True,
     cls=DateTimeEncoder)
 
-print(json_dump)
+# print(json_dump)
 
-stream_data = open(file_name, 'rb')
+# Post JSON
+# requests.put(
+#     'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
+#     data=json_dump
+# )
 
-# Post content
-requests.put(
-    'http://localhost:5000/v1/notes/{}/content'.format(file_name),
-    data=stream_data
-)
-# Post meta data
-requests.put(
-    'http://localhost:5000/v1/notes/{}/json'.format(file_name),
-    data=json_dump
-)
+# Get meta data
+# get_json = requests.get(
+#     'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
+# )
+# print(get_json.content)
+
+"""
+ALL META DATA
+"""
+
+
+class DateTimeDecoder(json.JSONDecoder):
+    def __init__(self, *args, **kargs):
+        # Using JSONDecoder in two different ways
+        JSONDecoder.__init__(self, object_hook=self.dict_to_object,
+                             *args, **kargs)
+    def dict_to_object(self, d):
+        if '__type__' not in d:
+            return d
+        _type = d.pop('__type__')
+        try:
+            dateobj = datetime(**d)
+            return dateobj
+        except:
+            d['__type__'] = _type
+            return d
+
 
 # Get all meta data
-requests.get(
+get_json = requests.get(
     'http://localhost:5000/v1/meta_data/load',
 )
+# Don't forget to decode!
+meta_data = json.loads(get_json.content.decode(), cls=DateTimeDecoder)
 
-stream_data.close()
+print(meta_data['fake_note']['tags'])
+
+

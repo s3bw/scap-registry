@@ -8,6 +8,7 @@ from scap_lib import storage
 from .app import app
 from .utils import response
 from .utils import api_error
+from .utils import DateTimeDecoder
 
 
 store = storage.load()
@@ -35,7 +36,8 @@ def get_note_json(note_id):
         data = store.get_content(store.note_json_path(note_id))
     except IOError:
         return api_error('Note not found', 404)
-    return response(json.loads(data))
+    return response(data)
+    # return response(json.loads(data, cls=DateTimeDecoder))
 
 
 @app.route('/v1/notes/<note_id>/json', methods=['PUT'])
@@ -54,9 +56,4 @@ def get_meta_data():
         all_data.update(
             {key: json.loads(value)}
         )
-    # I need to parse the ISO formatted datetime
-    # into python.datetime.datetime
-    # See: https://stackoverflow.com/a/10734224/3407256
-    # See: https://stackoverflow.com/a/28334064/3407256
-    print(all_data)
     return response(all_data)

@@ -22,7 +22,11 @@ bash app_debugger.sh
 
 To do list:
 - [X] create endpoints for separate meta data JSONs
-- [ ] create endpoint for constructing full meta data JSON
-- [ ] move the json encoder from mock_usage to utils
+- [X] Design Question: Encoding and Decoding on the client side?
+   - It kinda has to be to get the datetime objects through a stream.
+- [X] create endpoint for constructing full meta data JSON
+- [ ] Write tests for end points.
+- [ ] Add CI
+- [ ] move the json encoder from mock_usage to foolscap
 - [ ] implement this in foolscap
 - [ ] import from root instead of having relative imports
