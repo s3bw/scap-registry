@@ -1,0 +1,6 @@
+dev:
+    storage_path: ${HOME}/.fscap_cloud_test
+
+test:
+    storage: local
+    storage_path: /tmp/test

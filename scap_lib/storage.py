@@ -1,24 +1,18 @@
 import os
 from io import StringIO
 
-# import config
-
-
-ROOT_PATH = "/home/sebastien/.fscap_cloud_test"
+from scap_lib import config
+from scap_lib.utils import path_vars
 
 
 class Storage:
     """ Storage is organized as follows:
     $ROOT/notes/<note_id>/content
     $ROOT/notes/<note_id>/json
-    $ROOT/data/note_data.pkl
     """
 
     notes = 'notes'
     buffer_size = 4096
-
-    def note_data_path(self):
-        return 'data/note_data.pkl'
 
     def note_content_path(self, note_id):
         return '{0}/{1}/content'.format(self.notes, note_id)
@@ -51,9 +45,8 @@ class Storage:
 class LocalStorage(Storage):
 
     def __init__(self):
-        # self._config = config.load()
-        # self._root_path = self._config.storage_path
-        self._root_path = ROOT_PATH
+        self._config = config.load()
+        self._root_path = path_vars(self._config.storage_path)
 
     def _init_path(self, path=None, create=False):
         path = os.path.join(self._root_path, path) if path else self._root_path
