@@ -41,7 +41,6 @@ def get_note_json(note_id):
 
 @app.route('/v1/notes/<note_id>/json', methods=['PUT'])
 def put_note_json(note_id):
-    print(store._root_path)
     store.stream_write(store.note_json_path(note_id),
         request.stream)
     return response()
