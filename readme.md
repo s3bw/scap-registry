@@ -20,11 +20,6 @@ pip install requests
 bash app_debugger.sh
 ```
 
-To do list:
-- [ ] move the json encoder from mock_usage to foolscap
-- [ ] implement this in foolscap
-- [ ] import from root instead of having relative imports
-
 ## Running tests
 
 ```

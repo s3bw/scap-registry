@@ -26,7 +26,7 @@ def load():
         data = yaml.load(f)
     # Common is the config common to all flavors
     config = data.get('common', {})
-    flavor = os.environ.get('SETTING_FLAVOR', 'dev')
+    flavor = os.environ.get('APP_ENV', 'dev')
     config.update(data.get(flavor, {}))
     _config = Config(config)
     return _config

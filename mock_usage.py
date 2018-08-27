@@ -74,16 +74,16 @@ json_dump = json.dumps(
 # print(json_dump)
 
 # Post JSON
-# requests.put(
-#     'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
-#     data=json_dump
-# )
+requests.put(
+    'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
+    data=json_dump
+)
 
 # Get meta data
-# get_json = requests.get(
-#     'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
-# )
-# print(get_json.content)
+get_json = requests.get(
+    'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
+)
+print(get_json.content)
 
 """
 ALL META DATA

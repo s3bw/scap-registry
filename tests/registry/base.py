@@ -1,20 +1,21 @@
+import os
+import random
+import string
 import unittest
-from scap_registry import app
+
+
+os.environ['APP_ENV'] = 'test'
+
+
+import scap_registry
 
 
 class TestCase(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
-        pass
-
     def setUp(self):
-        self.app = app.test_client()
-        self.app.testing = True
+        scap_registry.app.testing = True
+        self.app = scap_registry.app.test_client()
 
-    def tearDown(self):
-        pass
+    def generate_note_id(self, length=8):
+        return ''.join([random.choice(string.ascii_uppercase + string.digits)
+            for x in range(length)])
