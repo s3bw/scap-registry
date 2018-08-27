@@ -37,7 +37,6 @@ def get_note_json(note_id):
     except IOError:
         return api_error('Note not found', 404)
     return response(data)
-    # return response(json.loads(data, cls=DateTimeDecoder))
 
 
 @app.route('/v1/notes/<note_id>/json', methods=['PUT'])
