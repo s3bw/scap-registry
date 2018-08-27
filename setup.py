@@ -10,7 +10,7 @@ setup(
         ]
     ),
     install_requires=[
-        'flask==0.12.2',
+        'flask==1.0.2',
         'requests==2.19.1',
         'PyYAML==3.13',
     ]
