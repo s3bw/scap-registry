@@ -1,3 +1,4 @@
+# flake8: noqa
 import json
 from json import JSONDecoder
 from json import JSONEncoder

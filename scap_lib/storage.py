@@ -1,5 +1,4 @@
 import os
-from io import StringIO
 
 from scap_lib import config
 from scap_lib.utils import path_vars
