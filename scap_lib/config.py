@@ -17,6 +17,8 @@ class Config:
 
 
 _config = None
+
+
 def load():
     global _config
     if _config is not None:

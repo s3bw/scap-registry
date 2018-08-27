@@ -1,14 +1,12 @@
 import json
 
 from flask import request
-from flask import Response
 
 from scap_lib import storage
 
 from .app import app
 from .utils import response
 from .utils import api_error
-from .utils import DateTimeDecoder
 
 
 store = storage.load()
@@ -25,7 +23,7 @@ def get_note_content(note_id):
 @app.route('/v1/notes/<note_id>/content', methods=['PUT'])
 def put_note_content(note_id):
     store.stream_write(store.note_content_path(note_id),
-        request.stream)
+                       request.stream)
     return response()
 
 
@@ -42,7 +40,7 @@ def get_note_json(note_id):
 @app.route('/v1/notes/<note_id>/json', methods=['PUT'])
 def put_note_json(note_id):
     store.stream_write(store.note_json_path(note_id),
-        request.stream)
+                       request.stream)
     return response()
 
 
