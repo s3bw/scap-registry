@@ -7,21 +7,32 @@
   Server side application for note storage.
 </h4>
 
-## Requirements
+## Setup local debugger for development
 
 ```bash
-pip install flask
-pip install requests
-```
-
-## Setup debugger for development
-
-```bash
-bash app_debugger.sh
+bash start_debugger.sh
 ```
 
 ## Running tests
 
+requirements:
+- tox
+- pytest
+- flake8
+
 ```
-python -m pytest
+tox
+```
+
+## Running the Docker Container
+
+```
+docker build -t scap-registry .
+docker container run -d -p 5000:5000 --name cloud scap-registry
+```
+
+Stop container process
+
+```
+docker container rm cloud -f
 ```
