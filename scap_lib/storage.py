@@ -130,11 +130,12 @@ class S3Storage(Storage):
     def _debug_key(self, key):
         """Used for debugging only."""
         orig_meth = key.bucket.connection.make_request
-        def new_meth(*arg, **kwargs):
-            print("#"*16)
+
+        def new_meth(*args, **kwargs):
+            print("#" * 16)
             print(args)
             print(kwargs)
-            print("#"*16)
+            print("#" * 16)
             return orig_meth(*args, **kwargs)
         key.bucket.connection.make_request = new_meth
 
@@ -212,6 +213,8 @@ class S3Storage(Storage):
 
 
 _storage = {}
+
+
 def load(kind=None):
     """Returns the appropriate storage class.
     """
