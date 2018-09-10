@@ -20,9 +20,8 @@ WORKDIR /scap-registry
 
 RUN python3 setup.py install
 
-# Specify the application configurations
-ENV APP_ENV=dev
-
 EXPOSE 5000
+
+RUN echo $HOME
 
 CMD scap-registry

@@ -50,6 +50,7 @@ def get_meta_data():
     for f in store.list_directory('notes'):
         key = f.split('/')[1]
         value = store.get_content(store.note_json_path(key))
+        print(value)
         all_data.update(
             {key: json.loads(value)}
         )

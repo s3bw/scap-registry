@@ -23,5 +23,13 @@ setup(
         'flask==1.0.2',
         'requests==2.19.1',
         'PyYAML==3.13',
-    ]
+        'boto==2.49.0',
+    ],
+    extra_require={
+        'test': [
+            'tox',
+            'pytest',
+            'flake8',
+        ]
+    }
 )

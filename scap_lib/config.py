@@ -13,7 +13,13 @@ class Config:
 
     def __getattr__(self, key):
         if key in self._config:
-            return self._config[key]
+            result = self._config[key]
+            if result.startswith('_env'):
+                var_split = result.split(':', 2)
+                var_name = var_split[1]
+                var_default = '' if len(var_split) < 3 else var_split[2]
+                result = os.environ.get(var_name, var_default)
+            return result
 
 
 _config = None
@@ -27,8 +33,8 @@ def load():
     with open(os.path.join(os.path.dirname(__file__), '..', 'config.yml')) as f:
         data = yaml.load(f)
     # Common is the config common to all flavors
-    config = data.get('common', {})
     flavor = os.environ.get('APP_ENV', 'dev')
-    config.update(data.get(flavor, {}))
+    print(flavor)
+    config =  data.get(flavor, {})
     _config = Config(config)
     return _config

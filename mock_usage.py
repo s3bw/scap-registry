@@ -49,7 +49,7 @@ def post_file_content(file_name):
     """In this example we can see the endpoint being used to post note
         content.
     """
-    stream_data = open(file_name, 'rb')
+    stream_data = open(file_name, 'r')
     # Post content
     requests.put(
         'http://localhost:5000/v1/notes/{}/content'.format(file_name),
@@ -84,7 +84,8 @@ requests.put(
 get_json = requests.get(
     'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
 )
-print(get_json.content)
+# print(get_json.content)
+print("Got Content!")
 
 """
 ALL META DATA
@@ -115,6 +116,7 @@ get_json = requests.get(
 # Don't forget to decode!
 meta_data = json.loads(get_json.content.decode(), cls=DateTimeDecoder)
 
+print("Meta Data Tags:")
 print(meta_data['fake_note']['tags'])
 
 
