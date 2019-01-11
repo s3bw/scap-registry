@@ -24,25 +24,25 @@ class Storage:
         return '{0}/{1}/json'.format(self.notes, note_id)
 
     def get_content(self, path):
-        raise NotImplemented
+        raise NotImplementedError
 
     def put_content(self, path, content):
-        raise NotImplemented
+        raise NotImplementedError
 
     def stream_read(self, path):
-        raise NotImplemented
+        raise NotImplementedError
 
     def stream_write(self, path, fp):
-        raise NotImplemented
+        raise NotImplementedError
 
     def list_directory(self, path=None):
-        raise NotImplemented
+        raise NotImplementedError
 
     def exists(self, path):
-        raise NotImplemented
+        raise NotImplementedError
 
     def remove(self, path):
-        raise NotImplemented
+        raise NotImplementedError
 
 
 class LocalStorage(Storage):

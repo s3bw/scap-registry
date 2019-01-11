@@ -21,8 +21,8 @@ setup(
     },
     install_requires=[
         'flask==1.0.2',
-        'requests==2.19.1',
-        'PyYAML==3.13',
+        'requests==2.21.0',
+        'PyYAML==4.2b1',
         'boto==2.49.0',
     ],
     extra_require={
