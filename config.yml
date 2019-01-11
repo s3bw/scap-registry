@@ -11,4 +11,6 @@ prod:
     s3_secret_key: _env:S3_SECRET_KEY
     s3_bucket: _env:S3_BUCKET
     storage: s3
+    # I need this to be a name space
+    # e.g. GiantsLoveDeathMetal
     storage_path: /prod
