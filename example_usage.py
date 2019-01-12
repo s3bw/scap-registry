@@ -1,13 +1,25 @@
 # flake8: noqa
 import json
+import argparse
 from json import JSONDecoder
 from json import JSONEncoder
 from datetime import datetime
 
 import requests
 
+parser = argparse.ArgumentParser()
+parser.add_argument('--port', default='5000',
+                    help='Specify container/server port')
+parser.add_argument('--host', default='localhost',
+                    help='Specify container/server hostname')
 
-_FILE_NAME = 'fake_note'
+args = parser.parse_args()
+
+_PORT = args.port
+_HOST = args.host
+
+_FILE_NAME = 'examples/note_sample'
+_FILE_ID = 'note_sample'
 
 
 def mock_data(views, year=2000, tag='fake_tag', book='general'):
@@ -45,20 +57,20 @@ class DateTimeEncoder(JSONEncoder):
 POST NOTE CONTENT
 """
 
-def post_file_content(file_name):
+def post_file_content(file_name, file_id):
     """In this example we can see the endpoint being used to post note
         content.
     """
     stream_data = open(file_name, 'r')
     # Post content
     requests.put(
-        'http://localhost:5000/v1/notes/{}/content'.format(file_name),
+        'http://{}:{}/v1/notes/{}/content'.format(_HOST, _PORT, file_id),
         data=stream_data
     )
     stream_data.close()
 
 
-post_file_content(_FILE_NAME)
+post_file_content(_FILE_NAME, _FILE_ID)
 
 """
 GET AND PUT NOTE JSON
@@ -76,15 +88,15 @@ json_dump = json.dumps(
 
 # Post JSON
 requests.put(
-    'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
+    'http://{}:{}/v1/notes/{}/json'.format(_HOST, _PORT, _FILE_ID),
     data=json_dump
 )
 
 # Get meta data
 get_json = requests.get(
-    'http://localhost:5000/v1/notes/{}/json'.format(_FILE_NAME),
+    'http://{}:{}/v1/notes/{}/json'.format(_HOST, _PORT, _FILE_ID),
 )
-# print(get_json.content)
+print(get_json)
 print("Got Content!")
 
 """
@@ -111,12 +123,12 @@ class DateTimeDecoder(json.JSONDecoder):
 
 # Get all meta data
 get_json = requests.get(
-    'http://localhost:5000/v1/meta_data/load',
+    'http://{}:{}/v1/meta_data/load'.format(_HOST, _PORT),
 )
 # Don't forget to decode!
 meta_data = json.loads(get_json.content.decode(), cls=DateTimeDecoder)
 
 print("Meta Data Tags:")
-print(meta_data['fake_note']['tags'])
+print(meta_data[_FILE_ID]['tags'])
 
 

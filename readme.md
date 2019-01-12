@@ -23,7 +23,6 @@ bash start_debugger.sh
 
 ## Running tests
 
-
 ```cmd
 pip install setup.py dev
 tox
@@ -54,4 +53,12 @@ Stop container process
 
 ```
 docker container rm cloud -f
+```
+
+## Written requests
+
+I've written requests in `example_usage.py` which will ping an active container/server and use the example note found in `examples/`
+
+```
+python example_usage.py --host localhost --port 5000
 ```

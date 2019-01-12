@@ -1,0 +1,13 @@
+# Fake Note
+
+## Setup debugger for development
+
+```bash
+export FLASK_APP=scap_registry/app.py
+export FLASK_DEBUG=1
+python -m flask run
+```
+
+To do list:
+- create endpoints for separating and constructing meta data JSONs
+- implement this in foolscap
