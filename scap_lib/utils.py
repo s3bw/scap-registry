@@ -2,7 +2,7 @@ import re
 import os
 
 
-VAR_PATTERN = '\${([A-Z]+)}'
+VAR_PATTERN = r'\${([A-Z]+)}'
 
 
 def path_vars(path):
@@ -13,8 +13,3 @@ def path_vars(path):
         value = os.environ.get(key)
         path = path.replace("${" + key + "}", value)
     return path
-
-
-if __name__ == '__main__':
-    path = "${HOME}/.fscap_cloud_test"
-    assert path_vars(path) == "/home/sebastien/.fscap_cloud_test"
