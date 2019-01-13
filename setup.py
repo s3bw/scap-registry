@@ -24,6 +24,8 @@ setup(
         'requests==2.21.0',
         'PyYAML==4.2b1',
         'boto==2.49.0',
+        'boto3==1.9.0',
+        'botocore==1.12.0',
     ],
     extra_require={
         'test': [
