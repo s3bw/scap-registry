@@ -27,6 +27,15 @@ def put_note_content(note_id):
     return response()
 
 
+@app.route('/v1/notes/<note_id>', methods=['DELETE'])
+def delete_note(note_id):
+    try:
+        store.remove(store.note_folder(note_id))
+        return response()
+    except IOError:
+        return api_error('Note not found', 404)
+
+
 @app.route('/v1/notes/<note_id>/json', methods=['GET'])
 def get_note_json(note_id):
     data = None
@@ -46,11 +55,15 @@ def put_note_json(note_id):
 
 @app.route('/v1/meta_data/load', methods=['GET'])
 def get_meta_data():
+    """Iterate through 'notes'."""
     all_data = {}
-    for f in store.list_directory('notes'):
-        key = f.split('/')[1]
-        value = store.get_content(store.note_json_path(key))
-        all_data.update(
-            {key: json.loads(value)}
-        )
+    try:
+        for f in store.list_directory('notes'):
+            key = f.split('/')[1]
+            value = store.get_content(store.note_json_path(key))
+            all_data.update(
+                {key: json.loads(value)}
+            )
+    except OSError:
+        pass
     return response(all_data)

@@ -51,6 +51,21 @@ class TestNotes(base.TestCase):
         expected_data = {note_id: {'id': note_id}}
         self.assertEqual(json.loads(result.data.decode()), expected_data)
 
+    def test_delete_note(self):
+        note_id = self.generate_note_id()
+        json_data = json.dumps({'id': note_id})
+        endpoint = "/v1/notes/{}/json".format(note_id)
+        result = self.app.put(endpoint, data=json_data)
+        self.assertEqual(result.status_code, 200)
+
+        # Test delete note endpoint
+        endpoint = '/v1/notes/{}'.format(note_id)
+        self.app.delete(endpoint)
+
+        result = self.app.get('/v1/notes/{}/content'.format(note_id))
+        self.assertEqual(result.status_code, 404)
+        self.tmp_folder = None
+
     def test_note_not_found(self):
         resp = self.app.get('/v1/notes/NOTFOUND/content')
         self.assertEqual(resp.status_code, 404)
