@@ -1,4 +1,5 @@
 import os
+import shutil
 from io import BytesIO
 
 import boto.s3.connection
@@ -17,11 +18,14 @@ class Storage:
     notes = 'notes'
     buffer_size = 4096
 
+    def note_folder(self, note_id):
+        return '{0}/{1}'.format(self.notes, note_id)
+
     def note_content_path(self, note_id):
-        return '{0}/{1}/content'.format(self.notes, note_id)
+        return self.note_folder(note_id) + '/content'
 
     def note_json_path(self, note_id):
-        return '{0}/{1}/json'.format(self.notes, note_id)
+        return self.note_folder(note_id) + '/json'
 
     def get_content(self, path):
         raise NotImplementedError
@@ -109,8 +113,9 @@ class LocalStorage(Storage):
         return os.path.exists(path)
 
     def remove(self, path):
+        path = self._init_path(path)
         if os.path.isdir(path):
-            os.rmdir(path)
+            shutil.rmtree(path)
             return
         os.remove(path)
 
@@ -209,6 +214,7 @@ class S3Storage(Storage):
         key = boto.s3.key.Key(self._s3_bucket, path)
         if not key.exists():
             raise OSError("No such key: '{}'".format(path))
+        # Does this delete folders?
         key.delete()
 
 
